@@ -11,111 +11,47 @@
 //This will require storing data in lists or arrays (possibly multiple 😜 )
 //If you want to get fancy, you can use functions
 
-using System.ComponentModel.Design;
-using System.Drawing;
-using System.Runtime.InteropServices;
+using PizzaShop.V2;
+using System;
+// Need to clean up cost display and space out text in prompt for visual clarity
+// Need to fix recipt to show correct cost and itemization
 
-static void SelectSize(object[,] selection)
-{
-    bool valid = true;
-    int chosen;
-
-
-    while (valid)
-    {
-        string choice = Console.ReadLine();
-
-        if (!int.TryParse(choice, out chosen) || chosen <= 0 || chosen > selection.GetLength(1))
-        {
-            Console.Write("The input is not a valid choice. Please select a choice using only numbers ");
-
-            for (int i = 1; i <= selection.GetLength(1) - 1; i++)
-            {
-                Console.Write($" {i}, ");
-            }
-            Console.Write($" {selection.GetLength(1)}.");
-            Console.WriteLine("");
-        }
-        else
-        {
-            Console.WriteLine("You chose " + selection[1, chosen - 1] + " for " + selection[0, chosen - 1]);
-            valid = false;
-        }
-    }
-}
-
-static void Select(object[] moreselection)
-{
-    bool valid = true;
-    int chosen;
-
-
-    while (valid)
-    {
-        string choice = Console.ReadLine();
-
-        if (!int.TryParse(choice, out chosen) || chosen <= 0 || chosen > moreselection.GetLength(0))
-        {
-            Console.Write("The input is not a valid choice. Please select a choice using only numbers ");
-
-            for (int i = 1; i <= moreselection.GetLength(0) - 1; i++)
-            {
-                Console.Write($" {i}, ");
-            }
-
-            Console.Write($" {moreselection.GetLength(0)}.");
-            Console.WriteLine("");
-        }
-        else
-        {
-            Console.WriteLine("You chose " + moreselection[chosen - 1]);
-            valid = false;
-        }
-    }
-}
-
-static void Prompt(object[] question, string topping)
-{
-    Console.WriteLine("Please select a choice using only numbers when making a selection.");
-    Console.Write($"Please choose a {topping}:");
-    for (int i = 0; i < question.GetLength(0); ++i)
-    {
-        Console.Write($" {i + 1}){question[i]}");
-    }
-    Console.WriteLine("");
-}
-
-string sauce = "Sauce";
-string veggie = "Veggie";
-string meat = "Meat";
-
-
-
-object[,] SizeArray = { { 9.99m, 11.99m, 14.99m, 16.99m }, { "Small", "Medium", "Large", "X-Large" } };
-object[] SauceArray = {  "Alfredo", "Marinara", "Buffalo", "None"  };
-object[] VeggieArray = { "Mushrooms", "Tomatoes", "Spinage", "Bell Peppers", "Olives", "None"  };
-object[] MeatArray = {  "Beef", "Italian", "Chicken", "Pepperoni",  "None" };
-
-Console.WriteLine("Please select a choice using only numbers when making a selection.");
-Console.Write("Please choose a size:");
-for (int i = 0; i < SizeArray.GetLength(1); ++i)
-{
-    Console.Write($" {i+1}){SizeArray[1, i]} {SizeArray[0, i]}");
-}
+Order order = new Order();
+Console.WriteLine("Please enter a name for your order.");
+order.Name = Console.ReadLine();
+Console.WriteLine($"Your order name is {order.Name}.");
 Console.WriteLine("");
 
-SelectSize(SizeArray);
+//start off the order
+Console.WriteLine("Please select a choice using only numbers when making a selection.");
+//Console.Write("Please choose a size:");
 
-Prompt(SauceArray, sauce);
-Select(SauceArray);
+//Get Size choice for Order
+Size size = new Size();
+Console.WriteLine(size.prompt);
+Size.SelectSize(size.SizeArray);
 
-Prompt(VeggieArray, veggie);
-Select(VeggieArray);
+//Get Sauce choice for Order
+Sauce sauce = new Sauce();
+Sauce.Prompt(sauce.SauceArray, sauce.sauce);
+Sauce.SelectSauce(sauce.SauceArray);
 
-Prompt(MeatArray, meat);
-Select(MeatArray);
+//Get Veggie choice for Order
+Veggie veggie = new Veggie();
+Veggie.Prompt(veggie.VeggieArray, veggie.veggie);
+Veggie.SelectVeggie(veggie.VeggieArray);
 
+//Get Meat choice for Order
+Meat meat = new Meat();
+Meat.Prompt(meat.MeatArray, meat.meat);
+Meat.SelectMeat(meat.MeatArray);
+//decimal sumcost = Size.cost + Sauce.cost + Veggie.cost + Meat.cost;
 
+//calculates subtotal, tax, total price
+Cost cost = new Cost();
+Cost.OrderCost(Cost.cost);
+
+//end of order
 Console.WriteLine("THANK YOU!!!!!");
 
 
