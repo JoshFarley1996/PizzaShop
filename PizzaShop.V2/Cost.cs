@@ -6,6 +6,7 @@ using System.Numerics;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace PizzaShop.V2
 {
@@ -17,6 +18,28 @@ namespace PizzaShop.V2
         public static List<object> costList = new List<object>();
         public static List<object> itemList = new List<object>();
 
+        public static List<object> orderList = new List<object>();  
+               
+        public static void StoreOrder()
+        {
+            string order = $"\nOrder: {Order.name}";
+
+            foreach (object item in itemList.Zip(costList, (item, cost) => $"\n{item}: {cost}"))
+            {
+                order += item;
+            }
+            orderList.Add(order);           
+
+        }
+
+        public static void OrderDescription()
+        {
+            foreach (object item in orderList)
+            {
+                Console.WriteLine(item);
+            }
+        }
+
         public static void OrderCost(decimal cost)
         {
             decimal taxprice = 0.00m;
@@ -26,14 +49,7 @@ namespace PizzaShop.V2
             taxprice = Math.Round(cost * taxrate,2);          
             totalcost = Math.Round(cost + taxprice,2);
 
-            Console.WriteLine(Order.name);
-
-            foreach (object item in itemList.Zip(costList, (item, cost) => $"{item}: {cost}"))
-            {
-                Console.WriteLine(item);
-            }
-
-            Console.WriteLine($"Order Price: {cost}");
+            Console.WriteLine($"\nOrder Price: {cost}");
             Console.WriteLine($"Taxes: {taxprice}");
             Console.WriteLine($"Total Cost: {totalcost}");           
 

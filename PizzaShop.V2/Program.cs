@@ -14,42 +14,49 @@
 using PizzaShop.V2;
 using System;
 // Need to clean up cost display and space out text in prompt for visual clarity
-// Need to fix recipt to show correct cost and itemization
+// Need to fix bug where user can be charged for extra None option. 
 
-Order order = new Order();
-Console.WriteLine("Please enter a name for your order.");
-order.Name = Console.ReadLine();
-Console.WriteLine($"Your order name is {order.Name}.");
-Console.WriteLine("");
+while (Order.ordercomplete)
+{
 
-//start off the order
-Console.WriteLine("Please select a choice using only numbers when making a selection.");
-//Console.Write("Please choose a size:");
+    Order order = new Order();
+    Console.WriteLine("Please enter a name for your order.");
+    order.Name = Console.ReadLine();
+    Console.WriteLine($"Your order name is {order.Name}.");
+    
+    //start off the order
+    Console.WriteLine("Please select a choice using only numbers when making a selection.");
+    
+    //Get Size choice for Order
+    Size size = new Size();
+    Console.WriteLine(size.prompt);
+    Size.SelectSize(size.SizeArray);
 
-//Get Size choice for Order
-Size size = new Size();
-Console.WriteLine(size.prompt);
-Size.SelectSize(size.SizeArray);
+    //Get Sauce choice for Order
+    Sauce sauce = new Sauce();
+    Sauce.Prompt(sauce.SauceArray, sauce.sauce);
+    Sauce.SelectSauce(sauce.SauceArray);
 
-//Get Sauce choice for Order
-Sauce sauce = new Sauce();
-Sauce.Prompt(sauce.SauceArray, sauce.sauce);
-Sauce.SelectSauce(sauce.SauceArray);
+    //Get Veggie choice for Order
+    Veggie veggie = new Veggie();
+    Veggie.Prompt(veggie.VeggieArray, veggie.veggie);
+    Veggie.SelectVeggie(veggie.VeggieArray);
 
-//Get Veggie choice for Order
-Veggie veggie = new Veggie();
-Veggie.Prompt(veggie.VeggieArray, veggie.veggie);
-Veggie.SelectVeggie(veggie.VeggieArray);
-
-//Get Meat choice for Order
-Meat meat = new Meat();
-Meat.Prompt(meat.MeatArray, meat.meat);
-Meat.SelectMeat(meat.MeatArray);
-//decimal sumcost = Size.cost + Sauce.cost + Veggie.cost + Meat.cost;
+    //Get Meat choice for Order
+    Meat meat = new Meat();
+    Meat.Prompt(meat.MeatArray, meat.meat);
+    Meat.SelectMeat(meat.MeatArray);
+    //decimal sumcost = Size.cost + Sauce.cost + Veggie.cost + Meat.cost;
+    Cost.StoreOrder();
+    Order.NewOrder();
+}
 
 //calculates subtotal, tax, total price
 Cost cost = new Cost();
+//Cost.OrderRecipt();
+Cost.OrderDescription();
 Cost.OrderCost(Cost.cost);
+//Cost.OrderCost(Cost.cost);
 
 //end of order
 Console.WriteLine("THANK YOU!!!!!");

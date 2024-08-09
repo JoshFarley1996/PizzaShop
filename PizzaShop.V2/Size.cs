@@ -1,7 +1,7 @@
 ﻿namespace PizzaShop.V2
 {
     public class Size
-    {
+    {   
         public string prompt = "Please choose a Size:";
         public object[,] SizeArray = { { 9.99m, 11.99m, 14.99m, 16.99m }, { "Small", "Medium", "Large", "X-Large" } };        
         public static int sizechoice;
@@ -15,7 +15,7 @@
                 Console.Write($" {i + 1}){selection[1, i]} {selection[0, i]}");
             }
             Console.WriteLine("");
-
+            
             bool valid = true;
 
             //while choice is not a valid input or selection or no selection has been made
@@ -34,22 +34,22 @@
                     {
                         Console.Write($" {i}, ");
                     }
-                    Console.Write($" {selection.GetLength(1)}.");
-                    Console.WriteLine("");
+                    Console.WriteLine($" {selection.GetLength(1)}.");                    
                 }
                 //read out the selection and cost
                 else
                 {
-                    Console.Write("You chose " + selection[1, chosen - 1] + " for " + selection[0, chosen - 1]);
+                    Console.WriteLine("You chose " + selection[1, chosen - 1] + " for " + selection[0, chosen - 1]);
                     sizechoice = chosen;
                     Cost.cost += Convert.ToDecimal(selection[0, chosen - 1]);
                     itemcost += Convert.ToDecimal(selection[0, chosen - 1]);
-                    Console.WriteLine($" Your total is {Cost.cost}.");
+                    Console.WriteLine($"Your total is {Cost.cost}.");
                     valid = false;
                 }
-                Cost.itemList.Add(selection[1, chosen - 1]);
-                Cost.costList.Add(itemcost);
-            }        
+                
+            }
+            Cost.itemList.Add(selection[1, sizechoice - 1]);
+            Cost.costList.Add(itemcost);
             return sizechoice;          
 
         }

@@ -9,7 +9,7 @@
 
         public static void Prompt(object[] question, string topping)
         {
-            Console.WriteLine("Please select a choice using only numbers when making a selection.");
+            Console.WriteLine("\nPlease select a choice using only numbers when making a selection.");
             Console.Write($"Please choose a {topping}:");
             for (int i = 0; i < question.GetLength(0); ++i)
             {
@@ -21,6 +21,7 @@
         public static void SelectSauce(string[] moreselection)
         {
             bool valid = true;
+            bool extravalid = true;
             int chosen;
             int otherchosen;
             int amount;
@@ -41,41 +42,44 @@
                         Console.Write($" {j}, ");
                     }
 
-                    Console.Write($" {moreselection.GetLength(0)}.");
-                    Console.WriteLine("");
+                    Console.WriteLine($" {moreselection.GetLength(0)}.");
                 }
                 //read out the selection
                 else
                 {
                     Console.WriteLine("You chose " + moreselection[chosen - 1]);
                     valid = false;
-                }
 
-                Console.WriteLine($"Would you like extra {moreselection[chosen - 1]} for $0.99 1) Yes 2) No.");
-                string otherchoice = Console.ReadLine();
 
-                if (!int.TryParse(otherchoice, out otherchosen) || otherchosen <= 0 || otherchosen > 2)
-                {
-                    Console.Write("The input is not a valid choice. Please select a choice using only numbers 1 and 2.");
+                    while (extravalid)
+                    {
+                        Console.WriteLine($"Would you like extra {moreselection[chosen - 1]} for $0.99 1) Yes 2) No.");
+                        string otherchoice = Console.ReadLine();
+
+                        if (!int.TryParse(otherchoice, out otherchosen) || otherchosen <= 0 || otherchosen > 2)
+                        {
+                            Console.WriteLine("The input is not a valid choice. Please select a choice using only numbers 1 and 2.");
+                        }
+                        else if (otherchosen == 1)
+                        {
+                            Console.WriteLine($"You selected extra {moreselection[chosen - 1]} for $0.99.");
+                            Cost.cost += 0.99m;
+                            Cost.itemList.Add($"Extra {moreselection[chosen - 1]}");
+                            Cost.costList.Add(itemcost);
+                            Console.WriteLine($" Your total is {Cost.cost}.");
+                            extravalid = false;
+                        }
+                        else
+                        {
+                            Console.WriteLine($"No extra {moreselection[chosen - 1]}");
+                            Cost.itemList.Add(moreselection[chosen - 1]);
+                            Cost.costList.Add("No extra");
+                            extravalid = false;
+                        }
+                    }
                 }
-                else if (otherchosen == 1)
-                {
-                    Console.Write($"You selected extra {moreselection[chosen - 1]} for $0.99.");        //Need to give access to cost
-                    Cost.cost += 0.99m;                    
-                    Cost.itemList.Add($"Extra {moreselection[chosen - 1]}");
-                    Cost.costList.Add(itemcost);
-                    Console.WriteLine($" Your total is {Cost.cost}.");
-                }
-                else
-                {
-                    Console.WriteLine($"No extra {moreselection[chosen - 1]}");
-                    Cost.itemList.Add(moreselection[chosen - 1]);
-                    Cost.costList.Add("No extra");
-                }
-                Console.WriteLine("");
-                
-                
-            }
+            }                
+            
         }
     }
 }
